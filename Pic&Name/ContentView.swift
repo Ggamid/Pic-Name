@@ -8,14 +8,43 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var showSheet = false
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack{
+            List {
+                
+                HStack{
+                    Image(.gamid)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 70)
+                        .frame(width: 80)
+                        .clipShape(.circle)
+                    VStack(alignment:.trailing){
+                        Text("Gamid")
+                            .font(.headline)
+                            .padding(.vertical)
+                        Spacer()
+                    }
+                }
+            }
+            .navigationTitle("Pic&Name")
+            .toolbar{
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button{
+                        showSheet = true
+                    }label: {
+                        Image(systemName: "plus.app")
+                    }
+                }
+            }
+            .sheet(isPresented: $showSheet, content: {
+                AddPersonView()
+            })
         }
-        .padding()
     }
 }
 
