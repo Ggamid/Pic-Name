@@ -43,6 +43,21 @@ extension ContentView {
         }
         
         
+        func updatePerson(person: Person) {
+            for i in 0...persons.count-1 {
+                if persons[i].id == person.id {
+                    persons[i] = person
+                }
+            }
+            save()
+        }
+        
+        func delete(index: IndexSet) {
+            persons.remove(atOffsets: index)
+            save()
+        }
+        
+        
         
         enum ErrorWithContentViewModel {
             case makeArrayOfPersonFailed

@@ -39,17 +39,18 @@ struct AddPersonView: View {
                     TextField("enter name", text: $name)
                         .font(.title2)
                         .fontWeight(.heavy)
+                        .padding()
                 }.underlineTextField()
             }
             .toolbar(content: {
                 ToolbarItem {
                     Button("Save") {
-                        Task{
-                            let person = Person(name: name, image: avatarImage!)
-                            onSave(person)
-                        }
+                        
+                        let person = Person(name: name, image: avatarImage!)
+                        onSave(person)
+                        
                         dismiss()
-                    }.disabled((avatarImage == nil) && name != "")
+                    }.disabled((avatarImage == nil) || name == "")
 
                 }
             })

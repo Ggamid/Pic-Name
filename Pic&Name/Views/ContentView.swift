@@ -17,20 +17,26 @@ struct ContentView: View {
         NavigationStack{
             List {
                 ForEach(viewModel.persons, id: \.id) { person in
-                    HStack{
-                        Image(uiImage: AddPersonView.ViewModel.imageToUIImage(imageToConvert: person.image!))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 70)
-                            .frame(width: 80)
-                            .clipShape(.circle)
-                        VStack(alignment:.trailing){
-                            Text(person.name)
-                                .font(.headline)
-                                .padding(.vertical)
+                    NavigationLink {
+                        DetailView(person: person, onUpdate: viewModel.updatePerson(person:))
+                    } label: {
+                        HStack{
+                            Image(uiImage: AddPersonView.ViewModel.imageToUIImage(imageToConvert: person.image!))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 70)
+                                .frame(width: 80)
+                                .clipShape(.circle)
+                            VStack(alignment:.trailing){
+                                Text(person.name)
+                                    .font(.headline)
+                                    .padding(.vertical)
+                            }
                         }
                     }
+
                 }
+                .onDelete(perform: viewModel.delete)
             }
             .navigationTitle("Pic&Name")
             .toolbar{
