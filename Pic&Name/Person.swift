@@ -9,12 +9,20 @@ import Foundation
 import SwiftUI
 
 
-class Person{
+class Person: Codable, Identifiable{
+    var id = UUID()
     var name: String
-    var image: Image
+    var image: Data?
     
-    init(name: String, image: Image) {
+    init(name: String, image: UIImage) async {
+        
         self.name = name
-        self.image = image
+        do{
+            self.image = try await AddPersonView.ViewModel.imageToData(imageToConvert: image)
+        }catch {
+            print(error.localizedDescription)
+        }
     }
+    
+    
 }

@@ -17,6 +17,8 @@ struct AddPersonView: View {
     
     @Environment(\.dismiss) var dismiss
     
+    var onSave: (Person) -> Void
+    
     var body: some View {
         NavigationStack{
             VStack{
@@ -42,6 +44,10 @@ struct AddPersonView: View {
             .toolbar(content: {
                 ToolbarItem {
                     Button("Save") {
+                        Task{
+                            let person = await Person(name: name, image: avatarImage!)
+                            onSave(person)
+                        }
                         dismiss()
                     }.disabled((avatarImage == nil) && name != "")
 
@@ -59,22 +65,12 @@ struct AddPersonView: View {
             }
         }
     }
-}
-
-#Preview {
-    AddPersonView()
-}
-
-
-extension Color {
-    static let darkPink = Color(red: 208 / 255, green: 45 / 255, blue: 208 / 255)
-}
-extension View {
-    func underlineTextField() -> some View {
-        self
-            .padding(.vertical, 30)
-            .overlay(Rectangle().frame(height: 2).padding(.top, 35))
-            .foregroundColor(.blue)
-            .padding(10)
+    
+    init(onSave: @escaping (Person) -> Void) {
+        self.onSave = onSave
     }
 }
+
+//#Preview {
+//    AddPersonView{ _ in }
+//}

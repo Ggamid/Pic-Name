@@ -11,23 +11,24 @@ struct ContentView: View {
     
     @State var showSheet = false
     
+    @State var viewModel = ViewModel()
     
     var body: some View {
         NavigationStack{
             List {
-                
-                HStack{
-                    Image(.gamid)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 70)
-                        .frame(width: 80)
-                        .clipShape(.circle)
-                    VStack(alignment:.trailing){
-                        Text("Gamid")
-                            .font(.headline)
-                            .padding(.vertical)
-                        Spacer()
+                ForEach(viewModel.persons, id: \.id) { person in
+                    HStack{
+                        Image(uiImage: AddPersonView.ViewModel.imageToUIImage(imageToConvert: person.image!))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 70)
+                            .frame(width: 80)
+                            .clipShape(.circle)
+                        VStack(alignment:.trailing){
+                            Text(person.name)
+                                .font(.headline)
+                                .padding(.vertical)
+                        }
                     }
                 }
             }
@@ -42,7 +43,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showSheet, content: {
-                AddPersonView()
+                AddPersonView(onSave: viewModel.addPerson(person:))
             })
         }
     }

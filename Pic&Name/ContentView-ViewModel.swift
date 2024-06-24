@@ -12,17 +12,43 @@ extension ContentView {
     @Observable
     class ViewModel {
         private(set) var persons: [Person]
+        let savePath = URL.documentsDirectory.appending(path: "SavedPersons")
         
-        // TODO: перевести картинку в Data затем сохранить в JSON
-        func save(){
+        
+        
+        init() {
             do{
-                
+                let data = try Data(contentsOf: savePath)
+                self.persons = try JSONDecoder().decode([Person].self, from: data)
+            } catch {
+                self.persons = []
+                print(error)
             }
         }
-        // TODO: Распарсить картинку из Дата и сделать список [Person]
-        init(persons: [Person]) {
-            self.persons = persons
+        
+        
+        func save(){
+            do {
+                let data = try JSONEncoder().encode(persons)
+                try data.write(to: savePath, options: [.atomic, .completeFileProtection])
+            } catch {
+                    print("Unable to save data.")
+            }
         }
+        
+        
+        func addPerson(person: Person) {
+            persons.append(person)
+            save()
+        }
+        
+        
+        
+        enum ErrorWithContentViewModel {
+            case makeArrayOfPersonFailed
+        }
+        
+        
         
     }
 }
