@@ -12,7 +12,7 @@ extension AddPersonView {
     @Observable
     class ViewModel {
         
-        static func imageToData(imageToConvert: UIImage) async throws -> Data {
+        static func imageToData(imageToConvert: UIImage) throws -> Data {
             if let data = imageToConvert.pngData() {
                 return data
             }

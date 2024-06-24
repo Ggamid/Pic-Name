@@ -45,7 +45,7 @@ struct AddPersonView: View {
                 ToolbarItem {
                     Button("Save") {
                         Task{
-                            let person = await Person(name: name, image: avatarImage!)
+                            let person = Person(name: name, image: avatarImage!)
                             onSave(person)
                         }
                         dismiss()

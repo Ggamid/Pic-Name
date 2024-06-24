@@ -14,15 +14,19 @@ class Person: Codable, Identifiable{
     var name: String
     var image: Data?
     
-    init(name: String, image: UIImage) async {
+    init(name: String, image: UIImage) {
         
         self.name = name
         do{
-            self.image = try await AddPersonView.ViewModel.imageToData(imageToConvert: image)
+            self.image = try AddPersonView.ViewModel.imageToData(imageToConvert: image)
         }catch {
             print(error.localizedDescription)
         }
     }
+    
+    #if DEBUG
+    static let example = Person(name: "Gamid", image: UIImage(resource: .gamid))
+    #endif
     
     
 }
