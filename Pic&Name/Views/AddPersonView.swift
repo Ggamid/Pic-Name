@@ -9,16 +9,10 @@ import SwiftUI
 import PhotosUI
 
 struct AddPersonView: View {
-    
+
+    @State var viewModel = ViewModel()
     @State var photoPickerItem: PhotosPickerItem?
-    @State var avatarImage: UIImage?
-    
-    @State var name: String = ""
-    @State var saveDisabled = false
-    @State var addLocation = false
-    
-    let locationFetcher = LocationFetcher()
-    
+
     @Environment(\.dismiss) var dismiss
     
     var onSave: (Person) -> Void
@@ -27,8 +21,8 @@ struct AddPersonView: View {
         NavigationStack{
             VStack{
                 PhotosPicker(selection: $photoPickerItem, matching: .images) {
-                    if (avatarImage != nil) {
-                        Image(uiImage: avatarImage!)
+                    if (viewModel.avatarImage != nil) {
+                        Image(uiImage: viewModel.avatarImage!)
                             .resizable()
                             .scaledToFit()
                     } else {
@@ -40,57 +34,41 @@ struct AddPersonView: View {
                 
                 HStack{
                     Image(systemName: "pencil")
-                    TextField("enter name", text: $name)
+                    TextField("enter name", text: $viewModel.name)
                         .font(.title2)
                         .fontWeight(.heavy)
                         .padding()
                     
                 }.underlineTextField()
                 
-                Toggle("Add current location", isOn: $addLocation)
+                Toggle("Add current location", isOn: $viewModel.addLocation)
                     .fontWeight(.heavy)
                     .padding(.horizontal)
-                    .onChange(of: addLocation) { _, _ in
-                        if addLocation {
-                            locationFetcher.start()
+                    .onChange(of: viewModel.addLocation) { _, _ in
+                        if viewModel.addLocation {
+                            viewModel.locationFetcher.start()
                         }
                     }
             }
             .toolbar(content: {
                 ToolbarItem {
                     Button{
-                        
-                        saveDisabled = true
-                        
-                        
-                        if addLocation {
-                            if let location = locationFetcher.lastKnownLocation {
-                                print("Your location is \(location)")
-                                let person = Person(name: name, image: avatarImage!, latitude: location.latitude, longitude: location.longitude)
-                                onSave(person)
-                            }
-                        } else {
-                            let person = Person(name: name, image: avatarImage!)
-                            onSave(person)
-                            print("Your location is unknown")
-                        }
+                        viewModel.saveDisabled = true
+                        viewModel.savePerson(onSave: onSave)
 
                         dismiss()
-                        
                     }label: {
                         Text("Save")
                     }
-                    .disabled((avatarImage == nil) || name == "" || saveDisabled)
-
+                    .disabled((viewModel.avatarImage == nil) || viewModel.name == "" || viewModel.saveDisabled)
                 }
             })
-            
         }
         .onChange(of: photoPickerItem) { _, _ in
             Task{
                 if let photoPickerItem, let data = try? await photoPickerItem.loadTransferable(type: Data.self) {
                     if let image = UIImage(data: data) {
-                        avatarImage = image
+                        viewModel.avatarImage = image
                     }
                 }
             }

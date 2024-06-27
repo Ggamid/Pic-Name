@@ -7,10 +7,18 @@
 
 import Foundation
 import SwiftUI
+import PhotosUI
 
 extension AddPersonView {
     @Observable
     class ViewModel {
+        
+        var name: String = ""
+        var saveDisabled = false
+        var addLocation = false
+        var avatarImage: UIImage?
+        
+        let locationFetcher = LocationFetcher()
         
         static func imageToData(imageToConvert: UIImage) throws -> Data {
             if let data = imageToConvert.pngData() {
@@ -31,7 +39,19 @@ extension AddPersonView {
             }
         }
         
-        
+        func savePerson(onSave: (Person) -> Void)  {
+            if addLocation {
+                if let location = locationFetcher.lastKnownLocation {
+                    print("Your location is \(location)")
+                    let person = Person(name: name, image: avatarImage!, latitude: location.latitude, longitude: location.longitude)
+                    onSave(person)
+                }
+            } else {
+                let person = Person(name: name, image: avatarImage!)
+                onSave(person)
+                print("Your location is unknown")
+            }
+        }
     }
 }
 
