@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 
-class Person: Codable, Identifiable{
+class Person: Codable, Identifiable, Comparable{
+    
     var id = UUID()
     var name: String
     var image: Data?
@@ -28,5 +29,12 @@ class Person: Codable, Identifiable{
     static let example = Person(name: "Gamid", image: UIImage(resource: .gamid))
     #endif
     
+    static func <(lhs: Person, rhs: Person) -> Bool {
+        return lhs.name < rhs.name
+    }
+    
+    static func == (lhs: Person, rhs: Person) -> Bool {
+        return lhs.name == rhs.name && lhs.image == rhs.image && lhs.id == rhs.id
+    }
     
 }

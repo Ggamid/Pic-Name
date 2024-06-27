@@ -14,6 +14,7 @@ struct AddPersonView: View {
     @State var avatarImage: UIImage?
     
     @State var name: String = ""
+    @State var saveDisabled = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -46,11 +47,13 @@ struct AddPersonView: View {
                 ToolbarItem {
                     Button("Save") {
                         
+                        saveDisabled = true
+                        
                         let person = Person(name: name, image: avatarImage!)
                         onSave(person)
                         
                         dismiss()
-                    }.disabled((avatarImage == nil) || name == "")
+                    }.disabled((avatarImage == nil) || name == "" || saveDisabled)
 
                 }
             })

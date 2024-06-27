@@ -38,12 +38,14 @@ extension ContentView {
         
         
         func addPerson(person: Person) {
+            persons.sort()
             persons.append(person)
             save()
         }
         
         
         func updatePerson(person: Person) {
+            persons.sort()
             for i in 0...persons.count-1 {
                 if persons[i].id == person.id {
                     persons[i] = person
@@ -53,6 +55,7 @@ extension ContentView {
         }
         
         func delete(index: IndexSet) {
+            persons.sort()
             persons.remove(atOffsets: index)
             save()
         }

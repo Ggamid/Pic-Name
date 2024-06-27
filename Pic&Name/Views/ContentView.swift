@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             List {
-                ForEach(viewModel.persons, id: \.id) { person in
+                ForEach(viewModel.persons.sorted(), id: \.id) { person in
                     NavigationLink {
                         DetailView(person: person, onUpdate: viewModel.updatePerson(person:))
                     } label: {
