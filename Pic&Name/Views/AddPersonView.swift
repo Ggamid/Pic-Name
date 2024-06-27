@@ -15,6 +15,9 @@ struct AddPersonView: View {
     
     @State var name: String = ""
     @State var saveDisabled = false
+    @State var addLocation = false
+    
+    let locationFetcher = LocationFetcher()
     
     @Environment(\.dismiss) var dismiss
     
@@ -41,19 +44,43 @@ struct AddPersonView: View {
                         .font(.title2)
                         .fontWeight(.heavy)
                         .padding()
+                    
                 }.underlineTextField()
+                
+                Toggle("Add current location", isOn: $addLocation)
+                    .fontWeight(.heavy)
+                    .padding(.horizontal)
+                    .onChange(of: addLocation) { _, _ in
+                        if addLocation {
+                            locationFetcher.start()
+                        }
+                    }
             }
             .toolbar(content: {
                 ToolbarItem {
-                    Button("Save") {
+                    Button{
                         
                         saveDisabled = true
                         
-                        let person = Person(name: name, image: avatarImage!)
-                        onSave(person)
                         
+                        if addLocation {
+                            if let location = locationFetcher.lastKnownLocation {
+                                print("Your location is \(location)")
+                                let person = Person(name: name, image: avatarImage!, latitude: location.latitude, longitude: location.longitude)
+                                onSave(person)
+                            }
+                        } else {
+                            let person = Person(name: name, image: avatarImage!)
+                            onSave(person)
+                            print("Your location is unknown")
+                        }
+
                         dismiss()
-                    }.disabled((avatarImage == nil) || name == "" || saveDisabled)
+                        
+                    }label: {
+                        Text("Save")
+                    }
+                    .disabled((avatarImage == nil) || name == "" || saveDisabled)
 
                 }
             })
@@ -75,6 +102,6 @@ struct AddPersonView: View {
     }
 }
 
-//#Preview {
-//    AddPersonView{ _ in }
-//}
+#Preview {
+    AddPersonView{ _ in }
+}

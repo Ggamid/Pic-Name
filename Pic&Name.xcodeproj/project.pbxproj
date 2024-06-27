@@ -14,6 +14,7 @@
 		87640F202C287A73008F40AC /* AddPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87640F1F2C287A73008F40AC /* AddPersonView.swift */; };
 		87640F222C288666008F40AC /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87640F212C288666008F40AC /* ContentView-ViewModel.swift */; };
 		87640F242C2886A7008F40AC /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87640F232C2886A7008F40AC /* Person.swift */; };
+		876A1F4E2C2D6EE7007B5B1D /* LocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876A1F4D2C2D6EE7007B5B1D /* LocationFetcher.swift */; };
 		87C7F89D2C299D9F006598CC /* AddPerson-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7F89C2C299D9F006598CC /* AddPerson-ViewModel.swift */; };
 		87C7F89F2C29ACE4006598CC /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7F89E2C29ACE4006598CC /* DetailView.swift */; };
 /* End PBXBuildFile section */
@@ -27,6 +28,7 @@
 		87640F1F2C287A73008F40AC /* AddPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPersonView.swift; sourceTree = "<group>"; };
 		87640F212C288666008F40AC /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
 		87640F232C2886A7008F40AC /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		876A1F4D2C2D6EE7007B5B1D /* LocationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFetcher.swift; sourceTree = "<group>"; };
 		87C7F89C2C299D9F006598CC /* AddPerson-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddPerson-ViewModel.swift"; sourceTree = "<group>"; };
 		87C7F89E2C29ACE4006598CC /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -45,6 +47,7 @@
 		87640F052C287701008F40AC = {
 			isa = PBXGroup;
 			children = (
+				876A1F4D2C2D6EE7007B5B1D /* LocationFetcher.swift */,
 				87640F102C287701008F40AC /* Pic&Name */,
 				87640F0F2C287701008F40AC /* Products */,
 			);
@@ -170,6 +173,7 @@
 			files = (
 				87640F242C2886A7008F40AC /* Person.swift in Sources */,
 				87640F142C287701008F40AC /* ContentView.swift in Sources */,
+				876A1F4E2C2D6EE7007B5B1D /* LocationFetcher.swift in Sources */,
 				87640F222C288666008F40AC /* ContentView-ViewModel.swift in Sources */,
 				87C7F89F2C29ACE4006598CC /* DetailView.swift in Sources */,
 				87640F122C287701008F40AC /* Pic_NameApp.swift in Sources */,
@@ -311,6 +315,7 @@
 				DEVELOPMENT_TEAM = 5TA9PLMD6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "add a location where user meet with this person";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -341,6 +346,7 @@
 				DEVELOPMENT_TEAM = 5TA9PLMD6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "add a location where user meet with this person";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

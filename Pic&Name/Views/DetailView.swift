@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
-
+import MapKit
 struct DetailView: View {
     
     let person: Person
     @Environment(\.dismiss) var dismiss
     
     var onUpdate: (Person) -> Void
+    
+    let photoLocation: MapCameraPosition?
     
     @State var isEditing = true
     @State var name = ""
@@ -28,7 +30,9 @@ struct DetailView: View {
                     .resizable()
                     .scaledToFit()
                     .clipShape(.rect(cornerRadius: 30))
-                    .frame(height: 500)
+                    .frame(height: 300)
+                    .padding(.horizontal)
+                    .padding(.top, 20)
                     
                     TextField(name, text: $name)
                         .disabled(isEditing)
@@ -37,6 +41,18 @@ struct DetailView: View {
                         .underlineTextField()
                         .padding(.horizontal)
                         .focused($isTypeing)
+                    if person.longitude != nil {
+                        MapReader { proxy in
+                            Map(initialPosition: photoLocation!) {
+                                Annotation("", coordinate: person.coordinate!) {
+                                    Image(systemName: "smallcircle.filled.circle")
+                                        .foregroundStyle(.red)
+                                }
+                            }
+                        }
+                        .frame(height: 300)
+                }
+                    
                 }
                 .navigationTitle("Detail")
                 .toolbar{
@@ -72,6 +88,16 @@ struct DetailView: View {
     init(person: Person, name: String = "", onUpdate: @escaping (Person) -> Void) {
         self.person = person
         self.onUpdate = onUpdate
+        if person.latitude != nil {
+            self.photoLocation = MapCameraPosition.region(
+                MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: person.latitude!, longitude: person.longitude!),
+                    span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+                )
+            )
+        } else {
+            self.photoLocation = nil
+        }
         
         _name = State(initialValue: person.name)
     }
