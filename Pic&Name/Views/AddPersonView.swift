@@ -66,8 +66,8 @@ struct AddPersonView: View {
         }
         .onChange(of: photoPickerItem) { _, _ in
             Task{
-                if let photoPickerItem, let data = try? await photoPickerItem.loadTransferable(type: Data.self) {
-                    if let image = UIImage(data: data) {
+                if let photoPickerItem, let data = try? await photoPickerItem.loadTransferable(type: Data.self) { // метод превращающий PickerItem в Data
+                    if let image = UIImage(data: data) { // коневертируем Data в UIImage для отображения на экране.
                         viewModel.avatarImage = image
                     }
                 }
